@@ -1,0 +1,2 @@
+python bigram_text_predictor.py
+pause
