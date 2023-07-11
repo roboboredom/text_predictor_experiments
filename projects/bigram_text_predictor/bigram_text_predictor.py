@@ -1,6 +1,6 @@
 from collections import defaultdict
 from itertools import islice
-import random, time, os
+import random, time, os, re
 
 
 def build_bigram_model(text):
@@ -8,13 +8,17 @@ def build_bigram_model(text):
 	Build a bigram model from the input text.
 	
 	Args:
-			text (str): The input text.
+		text (str): The input text.
 	
 	Returns:
-			dict: The bigram model as a nested dictionary.
+		dict: The bigram model as a nested dictionary.
 	"""
-	# Tokenize the input text
-	tokenized_text = text.split()
+	# Tokenize the input text by splitting on both whitespace and punctuation characters
+	# The regular expression [\w']+ matches sequences of word characters and apostrophes 
+	# (to capture contractions as single tokens) The regular expression [.,!?;:] matches 
+	# common punctuation characters. Using findall with these combined expressions 
+	# returns a list of tokens split on both whitespace and punctuation.
+	tokenized_text = re.findall(r"[\w']+|[.,!?;:]", text)
 	
 	# Generate the bigrams
 	bigrams = zip(tokenized_text, tokenized_text[1:])
@@ -39,7 +43,7 @@ def print_bigram_model(bigram_model):
 	Print the bigram model in a readable format.
 	
 	Args:
-			bigram_model (dict): The bigram model as a nested dictionary.
+		bigram_model (dict): The bigram model as a nested dictionary.
 	"""
 	for w1 in bigram_model:
 		print(f"\"{w1}\":")
