@@ -22,6 +22,7 @@ def build_bigram_model(text):
 	
 	# Generate the bigrams
 	bigrams = zip(tokenized_text, tokenized_text[1:])
+	#print(f"Zipping \"tokenized_text\":\n\"\"\"\n{tokenized_text}\n\"\"\"\nto \"tokenized_text[1:]\":\n\"\"\"\n{tokenized_text[1:]}\n\"\"\"")
 	
 	# Create a dictionary to store the bigram model
 	bigram_model = defaultdict(lambda: defaultdict(lambda: 0))
@@ -87,7 +88,7 @@ def generate_text(bigram_model, prompt, num_words=100):
 			# If the word is not in the bigram model, choose the most common word in the bigram model as the next word.
 			next_word = max(bigram_model, key=lambda x: sum(bigram_model[x].values()))
 			print(f"[WARNING] \"current_word\", \"{current_word}\", not in \"bigram_model\"! Setting \"next_word\" to most common word in \"bigram_model\", \"{next_word}\".")
-		
+			
 		# Add the next word to the output text.
 		output_text.append(next_word)
 		
